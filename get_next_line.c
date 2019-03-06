@@ -6,7 +6,7 @@
 /*   By: pabonnet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 14:55:26 by pabonnet          #+#    #+#             */
-/*   Updated: 2019/03/06 17:51:16 by pabonnet         ###   ########.fr       */
+/*   Updated: 2019/03/06 18:13:21 by pabonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,16 @@ int		get_next_line(const int fd, char **line)
 		return (0);
 	while (((env->read_len = read(fd, env->buf, BUFF_SIZE))) > 0)
 	{
-		env->buf[read_len] == '\0';
+		env->buf[env->read_len] = '\0';
 		while (env->buf[i] != '\n' && env->buf[i] != '\0')
 			i++;
 		if (env->buf[i] == '\n')
 			break;
+		printf("%s\n", env->buf);
+		printf("%d\n", env->read_len);
 	}
 	*line = ft_strsub(env->buf, env->pos, i - env->pos);
+		printf("%s\n", *line);
 	return (0);
 }
 
@@ -54,7 +57,7 @@ int		main(int argc, char **argv)
 	char *line;
 	int fd;
 	
-	if (argc == 0)
+	if (argc != 2)
 		return (0);
 	fd = open(argv[1], O_RDONLY);
 	get_next_line(fd, &line);
