@@ -6,7 +6,7 @@
 /*   By: pabonnet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 14:55:26 by pabonnet          #+#    #+#             */
-/*   Updated: 2019/03/06 18:13:21 by pabonnet         ###   ########.fr       */
+/*   Updated: 2019/03/06 18:22:19 by pabonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		malloc_env(t_env *env)
 	env->buf = 0;
 	env->pos = 0;
 	env->read_len = 0;
-	return (0);
+	return (1);
 }
 
 int		get_next_line(const int fd, char **line)
@@ -37,14 +37,16 @@ int		get_next_line(const int fd, char **line)
 		return (-1);
 	if (fd == -1)
 		return (0);
+	printf("a\n");
 	while (((env->read_len = read(fd, env->buf, BUFF_SIZE))) > 0)
 	{
+		printf("b\n");
 		env->buf[env->read_len] = '\0';
-		while (env->buf[i] != '\n' && env->buf[i] != '\0')
+		while (env->buf[i] != '\0' && env->buf[i] != '\n')
+		printf("%s\n", env->buf);
 			i++;
 		if (env->buf[i] == '\n')
 			break;
-		printf("%s\n", env->buf);
 		printf("%d\n", env->read_len);
 	}
 	*line = ft_strsub(env->buf, env->pos, i - env->pos);
